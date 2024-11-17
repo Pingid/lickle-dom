@@ -1,7 +1,7 @@
 {
   "name": "@lickle/dom",
   "description": "Library of dom utility functions",
-  "version": "0.0.0-dev.1",
+  "version": "0.0.0-dev.2",
   "author": "Dan Beaven <dm.beaven@gmail.com>",
   "repository": {
     "type": "git",

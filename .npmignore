@@ -1,2 +1,6 @@
 .github
 .gitignore
+bun.lockb
+generate.js
+tsconfig.cjs.json
+tsconfig.esm.json
