@@ -16,6 +16,7 @@ const hierarchy = ['ElementEventMap', 'GlobalEventHandlersEventMap', 'AbstractWo
 // Extract unique event map types and sort
 const all = Array.from(libDom.matchAll(reg))
   .map(([, map, self, rest]) => ({ map, self, rest }))
+  .filter(({ self }) => self !== 'T') // Filter out generic type parameter T
   .sort((a, b) => hierarchy.indexOf(a.map) - hierarchy.indexOf(b.map))
 
 // Generate the typescript code
@@ -25,6 +26,7 @@ const overloads = Array.from(all).map(({ map }) => {
   if (map === 'IDBRequestEventMap') targets = [`IDBRequest<any>`]
   if (map === 'HTMLElementEventMap') targets = [`HTMLElement`]
   if (map === 'SVGElementEventMap') targets = [`SVGElement`]
+  if (map === 'MessageEventTargetEventMap') targets = [`MessagePort`, `Worker`, `BroadcastChannel`]
 
   const t = targets.join(' | ')
 
@@ -54,7 +56,7 @@ const content = `
     }
 `
 
-fs.writeFileSync('src/events/on.ts', content)
+fs.writeFileSync('src/on.ts', content)
 
 // Write typescript type tests
 // const targets = new Set(all.map(({ self }) => self))

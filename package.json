@@ -1,7 +1,7 @@
 {
   "name": "@lickle/dom",
   "description": "Library of dom utility functions",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Dan Beaven <dm.beaven@gmail.com>",
   "repository": {
     "type": "git",
@@ -29,11 +29,12 @@
     "build": "npm run esm && npm run cjs",
     "format": "prettier --write .",
     "esm": "tsc -p ./tsconfig.esm.json",
-    "cjs": "tsc -p ./tsconfig.cjs.json"
+    "cjs": "tsc -p ./tsconfig.cjs.json",
+    "generate": "node ./generate.js"
   },
   "devDependencies": {
-    "prettier": "^3.3.3",
-    "typescript": "^5.6.3"
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.3"
   },
   "prettier": {
     "semi": false,
