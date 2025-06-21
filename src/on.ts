@@ -39,6 +39,24 @@ export type On = {
     options?: boolean | AddEventListenerOptions,
   ) => () => void
 
+  /** listen for events on target of @type { AudioDecoder } */
+  <T extends AudioDecoder>(
+    target: T,
+  ): <K extends keyof AudioDecoderEventMap>(
+    event: K,
+    listener: (this: T, ev: AudioDecoderEventMap[K]) => void,
+    options?: boolean | AddEventListenerOptions,
+  ) => () => void
+
+  /** listen for events on target of @type { AudioEncoder } */
+  <T extends AudioEncoder>(
+    target: T,
+  ): <K extends keyof AudioEncoderEventMap>(
+    event: K,
+    listener: (this: T, ev: AudioEncoderEventMap[K]) => void,
+    options?: boolean | AddEventListenerOptions,
+  ) => () => void
+
   /** listen for events on target of @type { AudioBufferSourceNode | AudioScheduledSourceNode | ConstantSourceNode | OscillatorNode } */
   <T extends AudioBufferSourceNode | AudioScheduledSourceNode | ConstantSourceNode | OscillatorNode>(
     target: T,
@@ -966,6 +984,15 @@ export type On = {
     options?: boolean | AddEventListenerOptions,
   ) => () => void
 
+  /** listen for events on target of @type { NavigationHistoryEntry } */
+  <T extends NavigationHistoryEntry>(
+    target: T,
+  ): <K extends keyof NavigationHistoryEntryEventMap>(
+    event: K,
+    listener: (this: T, ev: NavigationHistoryEntryEventMap[K]) => void,
+    options?: boolean | AddEventListenerOptions,
+  ) => () => void
+
   /** listen for events on target of @type { Notification } */
   <T extends Notification>(
     target: T,
@@ -1008,6 +1035,15 @@ export type On = {
   ): <K extends keyof PaymentRequestEventMap>(
     event: K,
     listener: (this: T, ev: PaymentRequestEventMap[K]) => void,
+    options?: boolean | AddEventListenerOptions,
+  ) => () => void
+
+  /** listen for events on target of @type { PaymentResponse } */
+  <T extends PaymentResponse>(
+    target: T,
+  ): <K extends keyof PaymentResponseEventMap>(
+    event: K,
+    listener: (this: T, ev: PaymentResponseEventMap[K]) => void,
     options?: boolean | AddEventListenerOptions,
   ) => () => void
 
