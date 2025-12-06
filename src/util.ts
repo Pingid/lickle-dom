@@ -8,6 +8,15 @@ export const interval = (ms: number, fn: () => void) => {
   return () => clearInterval(timer)
 }
 
+export const idle = (callback: () => void) => {
+  if ('requestIdleCallback' in window) {
+    const n = window.requestIdleCallback(callback)
+    return () => window.cancelIdleCallback(n)
+  }
+  const frame = requestAnimationFrame(callback)
+  return () => cancelAnimationFrame(frame)
+}
+
 export const dispose =
   (...args: (() => void)[]) =>
   () =>

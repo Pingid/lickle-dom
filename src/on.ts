@@ -129,6 +129,15 @@ export type On = {
     options?: boolean | AddEventListenerOptions,
   ) => () => void
 
+  /** listen for events on target of @type { CookieStore } */
+  <T extends CookieStore>(
+    target: T,
+  ): <K extends keyof CookieStoreEventMap>(
+    event: K,
+    listener: (this: T, ev: CookieStoreEventMap[K]) => void,
+    options?: boolean | AddEventListenerOptions,
+  ) => () => void
+
   /** listen for events on target of @type { Document | HTMLDocument | XMLDocument } */
   <T extends Document | HTMLDocument | XMLDocument>(
     target: T,
