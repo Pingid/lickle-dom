@@ -3,3 +3,6 @@ bun.lockb
 pnpm-lock.yaml
 lib
 bun.lock
+build/esm
+build/ts
+build/cjs
