@@ -8,15 +8,17 @@ export const observer = (
 } => {
   const observer = new MutationObserver((mutations) => cb(mutations))
   const disconnect = () => observer.disconnect()
-  disconnect.observe = (target: Node, options?: MutationObserverInit) => {
+
+  disconnect.observe = (target: Node, options: MutationObserverInit = { childList: true, subtree: true }) => {
     observer.observe(target, options)
     return () => observer.disconnect()
   }
+
   disconnect.takeRecords = () => observer.takeRecords()
   disconnect.disconnect = () => observer.disconnect()
+
   return disconnect
 }
-
 export const timeout = (ms: number, fn: () => void) => {
   const timer = setTimeout(fn, ms)
   return () => clearTimeout(timer)
