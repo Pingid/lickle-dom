@@ -1,6 +1,13 @@
 {
   "extends": "./tsconfig.json",
-  "compilerOptions": { "module": "commonjs", "outDir": "lib/cjs" },
+  "compilerOptions": {
+    "ignoreDeprecations": "6.0",
+    "moduleResolution": "node10",
+    "module": "commonjs",
+    "outDir": "lib/cjs",
+    "noEmit": false,
+    "rootDir": "src"
+  },
   "include": ["src/**/*"],
-  "exclude": ["src/**/*.test.ts"]
+  "exclude": ["src/**/*.test.ts", "build", "test"]
 }
