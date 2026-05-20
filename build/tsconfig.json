@@ -1,21 +1,13 @@
 {
+  "extends": "../tsconfig.json",
   "compilerOptions": {
-    "target": "es2022",
-    "lib": ["ESNext"],
     "types": ["node"],
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "noEmit": false,
+    "outDir": "esm",
     "rootDir": ".",
     "declaration": true,
     "declarationMap": true,
-    "sourceMap": true,
-    "outDir": "esm",
-    "declarationDir": "ts",
-    "isolatedModules": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "skipLibCheck": true
+    "declarationDir": "ts"
   },
   "include": ["index.ts"]
 }

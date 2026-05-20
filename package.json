@@ -1,7 +1,7 @@
 {
   "name": "@lickle/dom",
   "description": "Library of dom utility functions",
-  "version": "0.0.3",
+  "version": "0.2.0",
   "author": "Dan Beaven <dm.beaven@gmail.com>",
   "repository": {
     "type": "git",
@@ -19,11 +19,6 @@
       "import": "./lib/esm/index.js",
       "require": "./lib/cjs/index.js"
     },
-    "./events": {
-      "types": "./lib/ts/events/index.d.ts",
-      "import": "./lib/esm/events/index.js",
-      "require": "./lib/cjs/events/index.js"
-    },
     "./build": {
       "types": "./build/ts/index.d.ts",
       "import": "./build/esm/index.js",
@@ -31,17 +26,16 @@
     }
   },
   "scripts": {
-    "build": "npm run build:tools && npm run build:esm && npm run build:cjs",
+    "build": "pnpm tsc && pnpm build:tools && pnpm build:lib",
     "build:tools": "tsc -p ./build/tsconfig.json && tsc -p ./build/tsconfig.cjs.json",
-    "build:esm": "tsc -p ./tsconfig.esm.json",
-    "build:cjs": "tsc -p ./tsconfig.cjs.json",
+    "build:lib": "tsc -p ./tsconfig.esm.json && tsc -p ./tsconfig.cjs.json",
     "format": "prettier --write .",
     "generate": "npm run build:tools && node ./generate.js"
   },
   "devDependencies": {
-    "@types/node": "^24.10.1",
-    "prettier": "^3.7.4",
-    "typescript": "^5.9.3"
+    "@types/node": "^25.9.1",
+    "prettier": "^3.8.3",
+    "typescript": "^6.0.3"
   },
   "prettier": {
     "semi": false,
