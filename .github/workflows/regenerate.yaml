@@ -1,0 +1,70 @@
+name: Regenerate types
+
+permissions:
+  contents: write
+  pull-requests: write
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Mondays at 06:00 UTC
+    - cron: '0 6 * * 1'
+
+jobs:
+  regenerate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 10
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+
+      - name: install dependencies
+        run: pnpm install
+
+      - name: regenerate
+        run: pnpm generate
+
+      - name: verify types still pass
+        run: pnpm run build
+
+      - name: detect changes
+        id: diff
+        run: |
+          if git diff --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true"  >> "$GITHUB_OUTPUT"
+            ts_version=$(node -e 'console.log(require("typescript/package.json").version)')
+            echo "ts_version=$ts_version" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: bump patch version
+        if: steps.diff.outputs.changed == 'true'
+        id: bump
+        run: |
+          new_version=$(npm version patch --no-git-tag-version)
+          echo "version=${new_version#v}" >> "$GITHUB_OUTPUT"
+
+      - name: open pull request
+        if: steps.diff.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: chore/regenerate-types
+          commit-message: 'chore: regenerate from lib.dom.d.ts (typescript@${{ steps.diff.outputs.ts_version }})'
+          title: 'chore: regenerate from lib.dom.d.ts (v${{ steps.bump.outputs.version }})'
+          body: |
+            Automated regeneration of `src/on.ts` and `test/types.ts` from the current
+            `lib.dom.d.ts` (typescript@${{ steps.diff.outputs.ts_version }}).
+
+            Version bumped to `${{ steps.bump.outputs.version }}` (patch).
+
+            Review the diff carefully — new/removed events or targets indicate upstream
+            DOM changes.
+          labels: |
+            chore
+            automated
+          delete-branch: true

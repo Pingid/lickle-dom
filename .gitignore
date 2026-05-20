@@ -6,3 +6,4 @@ bun.lock
 build/esm
 build/ts
 build/cjs
+.vscode
