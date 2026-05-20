@@ -1,4 +1,4 @@
-export const observer = (
+export const mutations = (
   cb: (mutations: MutationRecord[]) => void,
 ): {
   (): void
@@ -19,6 +19,17 @@ export const observer = (
 
   return disconnect
 }
+
+export const resize = (cb: (entries: ResizeObserverEntry[]) => void) => {
+  const observer = new ResizeObserver((entries) => cb(entries))
+  const disconnect = () => observer.disconnect()
+  disconnect.observe = (target: Element, options?: ResizeObserverOptions) => {
+    observer.observe(target, options)
+    return () => observer.unobserve(target)
+  }
+  return disconnect
+}
+
 export const timeout = (ms: number, fn: () => void) => {
   const timer = setTimeout(fn, ms)
   return () => clearTimeout(timer)
