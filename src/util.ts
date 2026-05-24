@@ -1,3 +1,17 @@
+import type { EventNameFor, EventFor, ListenerOptions } from './types/index.js'
+
+/** listen for events on dom event emitters */
+export function on<T extends EventTarget, K extends EventNameFor<T>>(
+  target: T,
+  event: K,
+  cb: (this: T, ev: EventFor<T, K>) => void,
+  options?: ListenerOptions,
+): () => void
+export function on(target: any, event: any, listener: any, options?: any) {
+  target.addEventListener(event, listener, options)
+  return () => target.removeEventListener(event, listener, options)
+}
+
 export const mutations = (
   cb: (mutations: MutationRecord[]) => void,
 ): {
@@ -13,14 +27,12 @@ export const mutations = (
     observer.observe(target, options)
     return () => observer.disconnect()
   }
-
   disconnect.takeRecords = () => observer.takeRecords()
   disconnect.disconnect = () => observer.disconnect()
-
   return disconnect
 }
 
-export const resize = (cb: (entries: ResizeObserverEntry[]) => void) => {
+export const resizes = (cb: (entries: ResizeObserverEntry[]) => void) => {
   const observer = new ResizeObserver((entries) => cb(entries))
   const disconnect = () => observer.disconnect()
   disconnect.observe = (target: Element, options?: ResizeObserverOptions) => {
